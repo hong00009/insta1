@@ -1,14 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        <h1>{{user_info.username}}</h1>
+    <div class="m-2">
+        <div class="row">
+            <img src="{{user_info.profile_image.url}}" alt="" class="col-3 rounded-circle">
+            <div class="col-9">
+                <h1 class="text-center">{{user_info.username}}</h1>
+                <p>follower: {{user_info.follower.all|length}}명</p>
+                <p>following: {{user_info.following.all|length}}명</p>
 
+                {% if user != user_info %}
+                    {% if user in user_info.follower.all %}
+                        <a href="{% url 'accounts:following' user_info.id %}" class="btn btn-danger">unfollow</a>
+                    {% else %}
+                        <a href="{% url 'accounts:following' user_info.id %}" class="btn btn-primary">following</a>
+                    {% endif %}
+
+                {% else %}
+                    <a href="{% url 'accounts:edit' %}" class="btn btn-primary">edit</a>
+
+                {% endif %}
+            </div>
+        </div>
     </div>
-    <div>
-        {% for post in user_info.post_set.all %}
-            {% include 'posts/_card.html' %}
-        {% endfor %}
 
+    <div>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for post in user_info.post_set.all %}
+                <div class="col">
+                    {% include 'posts/_card.html' %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
