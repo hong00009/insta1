@@ -1,6 +1,17 @@
 {% load bootstrap5 %}
 <div class="card mb-3" style="width: 18rem;">
+    <div class="card-header">
+        <a href="{% url 'posts:bookmarks' post.id %}" class="text-reset text-decoration-none">
+            {% if user in post.bookmark_users.all %}
+            <i class="fa-solid fa-bookmark"></i> {{bookmark.created_at|timesince}}
+            {% else %}
+            <i class="fa-regular fa-bookmark"></i>
+            {% endif %}            
+        </a>
+    </div>
+
     <img src="{{post.image.url}}" class="card-img-top" alt="...">
+
     <div class="card-body">
         <p>
             <a href="{% url 'posts:likes' post.id %}" class="text-reset text-decoration-none">
@@ -21,7 +32,7 @@
 
     </div>
     <div class="card-footer text-body-secondary">
-        {{post.created_at|timesince}} ago
+        {{post.created_at|timesince}} ago 작성
     </div>
 
     {% if request.resolver_match.url_name != 'profile' %}

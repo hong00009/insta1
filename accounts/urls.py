@@ -5,6 +5,10 @@ app_name = 'accounts'
 
 urlpatterns = [
     #create
+    path('bookmark-list/', views.bookmark_list, name='bookmark_list'),
+
+    path('newsfeed/', views.newsfeed, name='newsfeed'),
+    
     path('signup/', views.signup, name='signup'),
     
     #update
@@ -21,5 +25,6 @@ urlpatterns = [
 
     #create
     path('<int:id>/following/', views.following, name='following'),
+
 
 ]

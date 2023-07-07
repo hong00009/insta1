@@ -4,6 +4,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from posts.models import Post
 
 # Create your views here.
 def signup(request):
@@ -86,3 +87,23 @@ def edit(request):
     }
 
     return render(request, 'accounts/form.html', context)
+
+@login_required
+def bookmark_list(request):
+    bookmarks = request.user.bookmark_set.all().order_by('-created_at') #유저가 가진 북마크 목록
+
+    context = {
+        'bookmarks': bookmarks,
+    }
+    return render(request, 'accounts/bookmark_list.html', context)
+
+
+def newsfeed(request):
+
+    user = request.user
+    posts = Post.objects.filter(user__in=user.following.all())
+    
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'posts/index.html', context)

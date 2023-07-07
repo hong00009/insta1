@@ -17,4 +17,8 @@ urlpatterns = [
     path('<int:id>/comments/create', views.comments_create, name='comments_create'),
     
     path('<int:id>/likes/', views.likes, name='likes'),
+
+    path('<int:id>/bookmarks/', views.bookmarks, name='bookmarks'),
+
+
 ] 

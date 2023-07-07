@@ -78,3 +78,16 @@ def likes(request, id):
 
 
     return redirect('posts:index')
+
+@login_required
+def bookmarks(request, id):
+    user = request.user
+    post = Post.objects.get(id=id)
+
+    # if user in post.bookmark_users.all():  유저기준
+    if post in user.bookmarks.all(): #게시물기준
+        user.bookmarks.remove(post)
+    else:
+        user.bookmarks.add(post)
+
+    return redirect('posts:index')
